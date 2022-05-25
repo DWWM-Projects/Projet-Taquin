@@ -121,7 +121,9 @@
             left: 200px;
         }
 
-        #sq16 {
+        #empty {
+            background-color: #ffffff;
+            color: #000000;
             top: 300px;
             left: 300px;
         }
@@ -150,14 +152,27 @@
             <div class="square" id="sq13">13</div>
             <div class="square" id="sq14">14</div>
             <div class="square" id="sq15">15</div>
-            <div class="square" id="sq16">16</div>
+            <div class="square" id="empty">Empty</div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        
+        var square = $(".square");
+        var empty = $("#empty");
+
+
+
+
+        $(".square").click(function () {
+            var fullTop = parseInt($(this).position().top);
+            var fullLeft = parseInt($(this).position().left);
+            var empTop = parseInt($("#empty").position().top);
+            var empLeft = parseInt($("#empty").position().left);
+            console.log("bloc top: " + fullTop + "bloc left: " + fullLeft + "vide top: " + empTop + "vide left: " + empLeft);
+        })
+
 
     </script>
 </body>
