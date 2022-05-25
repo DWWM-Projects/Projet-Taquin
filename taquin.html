@@ -167,7 +167,12 @@
             var fullLeft = $(this).position().left;
             var empTop = $("#empty").position().top;
             var empLeft = $("#empty").position().left;
+            var diffTop = Math.abs(fullTop - empTop);
+            var diffLeft = Math.abs(fullLeft - empLeft);
             console.log("bloc top: " + fullTop + "bloc left: " + fullLeft + "vide top: " + empTop + "vide left: " + empLeft);
+            if (diffTop > 100 || diffLeft > 100 || diffTop >= 100 && diffLeft >= 100) {
+                return;
+            }
             $(this).css("top", empTop);
             $(this).css("left", empLeft);
             $("#empty").css("top", fullTop);
