@@ -162,16 +162,29 @@
         var square = $(".square");
         var empty = $("#empty");
 
-
-
-
         $(".square").click(function () {
-            var fullTop = parseInt($(this).position().top);
-            var fullLeft = parseInt($(this).position().left);
-            var empTop = parseInt($("#empty").position().top);
-            var empLeft = parseInt($("#empty").position().left);
+            var fullTop = $(this).position().top;
+            var fullLeft = $(this).position().left;
+            var empTop = $("#empty").position().top;
+            var empLeft = $("#empty").position().left;
             console.log("bloc top: " + fullTop + "bloc left: " + fullLeft + "vide top: " + empTop + "vide left: " + empLeft);
+            $(this).css("top", empTop);
+            $(this).css("left", empLeft);
+            $("#empty").css("top", fullTop);
+            $("#empty").css("left", fullLeft);
         })
+
+        // $(".square").click(function () {
+        //     var fullTop = $(this).position().top;
+        //     var fullLeft = $(this).position().left;
+        //     var empTop = $("#empty").position().top;
+        //     var empLeft = $("#empty").position().left;
+        //     console.log("bloc top: " + fullTop + "bloc left: " + fullLeft + "vide top: " + empTop + "vide left: " + empLeft);
+        //     $(this).css("top", empTop);
+        //     $(this).css("left", empLeft);
+        //     $("#empty").css("top", fullTop);
+        //     $("#empty").css("left", fullLeft);
+        // })
 
 
     </script>
