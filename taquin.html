@@ -25,6 +25,54 @@
             margin: auto;
         }
 
+        #panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            border: 5px solid #ffffff;
+            border-radius: 15px;
+            padding: 10px;
+            height: 140px;
+            width: 450px;
+        }
+
+        #display {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            height: 50px;
+        }
+
+        #counter {          
+            font-size: 50px;
+            color: #ffffff;
+        }
+
+        #time {
+            font-size: 50px;
+            color: #ffffff;
+        }
+
+        #buttons{
+            margin-top: 25px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            bottom: 10px;
+        }
+
+        button {
+            background-color: transparent;
+            border: 2px solid #ffffff;
+            border-radius: 10px;
+            font-size: 30px;
+            color: #ffffff;
+            padding: 3px;
+            cursor: pointer;
+        }
+
         .taquin {
             position: relative;
             height: 400px;
@@ -45,6 +93,7 @@
             font-size: 20px;
             font-weight: bold;
             color: white;
+            cursor: pointer;
         }
 
         #sq1 {
@@ -144,6 +193,7 @@
             border: 1px solid black;
             top: 300px;
             left: 300px;
+            cursor: pointer;
         }
 
         #empty img {
@@ -154,8 +204,21 @@
     </style>
 </head>
 <body>
+
+    <div id="panel">
+        <div id="display">
+            <span id="counter"></span>
+            <span id="time">00:00:00</span>
+        </div>
+        <div id="buttons">
+            <button id="play">Play / restart</button>
+            <button id="pause">Pause</button>
+            <button id="stop">Stop</button>
+        </div>
+    </div>  
     
     <div class="container">
+
         <div class="taquin">
             <div class="square" id="sq1"></div>
             <div class="square" id="sq2"></div>
@@ -181,6 +244,14 @@
     <script>
         var square = $(".square");
         var empty = $("#empty");
+        var count = 0;
+        var counter = $("#counter");
+        var time = $("#time");
+        var play = $("#play");
+        var stop = $("#stop");
+        var pause = $("#pause")
+
+        $("#counter").text("Coups: " + count);
 
         $(".square").click(function () {
             var fullTop = $(this).position().top;
@@ -197,7 +268,11 @@
             $(this).css("left", empLeft);
             $("#empty").css("top", fullTop);
             $("#empty").css("left", fullLeft);
+            count++;
+            console.log("coups joués: " + count);
+            $("#counter").text("Coups: " + count);
         })
+
 
         // $(".square").click(function () {
         //     var fullTop = $(this).position().top;
