@@ -208,11 +208,11 @@
     <div id="panel">
         <div id="display">
             <span id="counter"></span>
-            <span id="time">00:00:00</span>
+            <span id="time"></span>
         </div>
         <div id="buttons">
-            <button id="play">Play / restart</button>
-            <button id="pause">Pause</button>
+            <button id="play">Play / Pause</button>
+            <button id="restart">Restart</button>
             <button id="stop">Stop</button>
         </div>
     </div>  
@@ -245,13 +245,18 @@
         var square = $(".square");
         var empty = $("#empty");
         var count = 0;
-        var counter = $("#counter");
-        var time = $("#time");
-        var play = $("#play");
-        var stop = $("#stop");
-        var pause = $("#pause")
+        // var counter = $("#counter");
+        // var time = $("#time");
+        // var play = $("#play");
+        // var stop = $("#stop");
+        var pause = false;
+        var onGoing;
+        var hours = "00";
+        var minutes = "00";
+        var seconds = "00";
 
         $("#counter").text("Coups: " + count);
+        $("#time").text(hours + ":" + minutes + ":" + seconds); 
 
         $(".square").click(function () {
             var fullTop = $(this).position().top;
@@ -272,6 +277,75 @@
             console.log("coups joués: " + count);
             $("#counter").text("Coups: " + count);
         })
+
+        $("#play").click(function () {
+            console.log("Play");
+            $("#time").text(hours + ":" + minutes + ":" + seconds);
+            clearInterval(onGoing);          
+
+            if (pause == false) {
+                pause = true;
+                onGoing = setInterval(function () {
+
+                    $("#time").text(hours + ":" + minutes + ":" + seconds);
+                    seconds++;
+                    if (seconds == 60) {
+                        seconds = "00";
+                        minutes++;
+                    }
+                    if (minutes == 60) {
+                        minutes = "00";
+                        hours++;
+                    }                
+
+                }, 1000);
+
+            } else if (pause == true) {
+                clearInterval(onGoing);
+                pause = false;
+                console.log("Pause");
+            }
+
+        })
+
+        $("#restart").click(function () {
+            console.log("Restart");
+            clearInterval(onGoing);
+            hours = "00";
+            minutes = "00";
+            seconds = "00";
+            $("#time").text(hours + ":" + minutes + ":" + seconds);
+            count = 0;
+            $("#counter").text("Coups: " + count);
+
+            onGoing = setInterval(function () {
+
+                $("#time").text(hours + ":" + minutes + ":" + seconds);
+                seconds++;
+                if (seconds == 60) {
+                    seconds = "00";
+                    minutes++;
+                }
+                if (minutes == 60) {
+                    minutes = "00";
+                    hours++;
+                }
+
+            }, 1000);
+        })
+
+        $("#stop").click(function () {
+            console.log("Stop");            
+            clearInterval(onGoing);
+            hours = "00";
+            minutes = "00";
+            seconds = "00";
+            count = 0;
+            $("#counter").text("Coups: " + count);
+            $("#time").text(hours + ":" + minutes + ":" + seconds);
+        })
+
+
 
 
         // $(".square").click(function () {
