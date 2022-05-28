@@ -73,6 +73,21 @@
             cursor: pointer;
         }
 
+        #displayPause {
+            position: fixed;
+            z-index: 500;
+            top: 45px;
+            left: 540px;
+            font-size: 130px;
+            color: rgb(82, 43, 43);
+            text-align: center;
+        }
+
+        .hide {
+            display: none;
+            z-index: -5;
+        }
+
         .taquin {
             position: relative;
             height: 400px;
@@ -216,7 +231,14 @@
             <button id="restart">Restart</button>
             <button id="stop">Stop</button>
         </div>
-    </div>  
+    </div>
+
+    
+    <div id="displayPause" class="hide">
+        <h2>"PAUSE"</h2>
+        <img src="pause.png" alt="Masque de Majora">
+    </div>
+    
     
     <div class="container">
         <div class="taquin">
@@ -252,7 +274,8 @@
         var game = false;
         var list = $(".mix");
         var mixList = list;
-        console.log(list);
+        var curList;
+        console.log("list: " + list);
 
         $("#counter").text("Coups: " + count);
         $("#time").text(hours + ":" + minutes + ":" + seconds); 
@@ -276,6 +299,15 @@
                 count++;
                 console.log("coups joués: " + count);
                 $("#counter").text("Coups: " + count);
+
+
+                curList = $(".mix");
+                if (curList == list) {
+                    console.log("win");
+                }
+                console.log(curList);
+                console.log(list);
+
             }
 
         })
@@ -286,7 +318,7 @@
                 while (i < 100) {
                     i++;
                     fisherYates(mixList);
-                    console.log(mixList);
+                    console.log("mixList" + mixList);
                     let posOneTop = $(mixList[1]).position().top;
                     let posOneLeft = $(mixList[1]).position().left;
                     let posTwoTop = $(mixList[2]).position().top;
@@ -295,14 +327,15 @@
                     $(mixList[1]).css("left", posTwoLeft);
                     $(mixList[2]).css("top", posOneTop);
                     $(mixList[2]).css("left", posOneLeft);
-                    console.log(" Pos 1 top: " + posOneTop + " Pos 1 left: " + posOneLeft + " Pos 2 top: " + posTwoTop + " Pos 2 left: " + posTwoLeft);
+                    console.log("Pos 1 top: " + posOneTop + " Pos 1 left: " + posOneLeft + " Pos 2 top: " + posTwoTop + " Pos 2 left: " + posTwoLeft);
                 }
             }
             game = true;
-            console.log("Game: " + game);
+            // console.log("Game: " + game);
             if (pause == false) {
                 $("#time").text(hours + ":" + minutes + ":" + seconds);
-                clearInterval(onGoing);       
+                clearInterval(onGoing);
+                $("#displayPause").addClass("hide");   
                 pause = true;
                 console.log("Play");
                 onGoing = setInterval(function () {
@@ -326,10 +359,11 @@
 
             } else if (pause == true) {
                 clearInterval(onGoing);
+                $("#displayPause").removeClass("hide");
                 pause = false;
                 game = true;
                 console.log("Pause");
-                console.log("Game: " + game);
+                // console.log("Game: " + game);
             }
         })
 
@@ -340,6 +374,7 @@
                 pause = true;
                 console.log("Game: " + game);
                 clearInterval(onGoing);
+                $("#displayPause").addClass("hide"); 
                 hours = "00";
                 minutes = "00";
                 seconds = "00";
@@ -351,7 +386,7 @@
                 while (i < 100) {
                     i++;
                     fisherYates(mixList);
-                    console.log(mixList);
+                    console.log("mixList" + mixList);
                     let posOneTop = $(mixList[1]).position().top;
                     let posOneLeft = $(mixList[1]).position().left;
                     let posTwoTop = $(mixList[2]).position().top;
