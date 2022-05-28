@@ -220,34 +220,28 @@
     
     <div class="container">
         <div class="taquin">
-            <div class="square" id="sq1"></div>
-            <div class="square" id="sq2"></div>
-            <div class="square" id="sq3"></div>
-            <div class="square" id="sq4"></div>
-            <div class="square" id="sq5"></div>
-            <div class="square" id="sq6"></div>
-            <div class="square" id="sq7"></div>
-            <div class="square" id="sq8"></div>
-            <div class="square" id="sq9"></div>
-            <div class="square" id="sq10"></div>
-            <div class="square" id="sq11"></div>
-            <div class="square" id="sq12"></div>
-            <div class="square" id="sq13"></div>
-            <div class="square" id="sq14"></div>
-            <div class="square" id="sq15"></div>
-            <div id="empty"><img src="skullkid.png" alt="Skull Kid"></div>
+            <div class="square mix" id="sq1"></div>
+            <div class="square mix" id="sq2"></div>
+            <div class="square mix" id="sq3"></div>
+            <div class="square mix" id="sq4"></div>
+            <div class="square mix" id="sq5"></div>
+            <div class="square mix" id="sq6"></div>
+            <div class="square mix" id="sq7"></div>
+            <div class="square mix" id="sq8"></div>
+            <div class="square mix" id="sq9"></div>
+            <div class="square mix" id="sq10"></div>
+            <div class="square mix" id="sq11"></div>
+            <div class="square mix" id="sq12"></div>
+            <div class="square mix" id="sq13"></div>
+            <div class="square mix" id="sq14"></div>
+            <div class="square mix" id="sq15"></div>
+            <div class="mix" id="empty"><img src="skullkid.png" alt="Skull Kid"></div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        // var square = $(".square");
-        // var empty = $("#empty");
-        // var counter = $("#counter");
-        // var time = $("#time");
-        // var play = $("#play");
-        // var stop = $("#stop");
         var onGoing;
         var count = 0;
         var hours = "00";
@@ -256,32 +250,56 @@
         var cent = 0;
         var pause = false;
         var game = false;
+        var list = $(".mix");
+        var mixList = list;
+        console.log(list);
 
         $("#counter").text("Coups: " + count);
         $("#time").text(hours + ":" + minutes + ":" + seconds); 
 
         $(".square").click(function () {
-            var fullTop = $(this).position().top;
-            var fullLeft = $(this).position().left;
-            var empTop = $("#empty").position().top;
-            var empLeft = $("#empty").position().left;
-            var diffTop = Math.abs(fullTop - empTop);
-            var diffLeft = Math.abs(fullLeft - empLeft);
-            console.log("bloc top: " + fullTop + "bloc left: " + fullLeft + "vide top: " + empTop + "vide left: " + empLeft);
-            if (diffTop > 100 || diffLeft > 100 || diffTop >= 100 && diffLeft >= 100) {
-                return;
+            if (pause == true && game == true) {
+                var fullTop = $(this).position().top;
+                var fullLeft = $(this).position().left;
+                var empTop = $("#empty").position().top;
+                var empLeft = $("#empty").position().left;
+                var diffTop = Math.abs(fullTop - empTop);
+                var diffLeft = Math.abs(fullLeft - empLeft);
+                console.log("bloc top: " + fullTop + "bloc left: " + fullLeft + "vide top: " + empTop + "vide left: " + empLeft);
+                if (diffTop > 100 || diffLeft > 100 || diffTop >= 100 && diffLeft >= 100) {
+                    return;
+                }
+                $(this).css("top", empTop);
+                $(this).css("left", empLeft);
+                $("#empty").css("top", fullTop);
+                $("#empty").css("left", fullLeft);
+                count++;
+                console.log("coups joués: " + count);
+                $("#counter").text("Coups: " + count);
             }
-            $(this).css("top", empTop);
-            $(this).css("left", empLeft);
-            $("#empty").css("top", fullTop);
-            $("#empty").css("left", fullLeft);
-            count++;
-            console.log("coups joués: " + count);
-            $("#counter").text("Coups: " + count);
+
         })
 
         $("#play").click(function () {
+            if (game == false) {
+                let i = 0;
+                while (i < 100) {
+                    i++;
+                    fisherYates(mixList);
+                    console.log(mixList);
+                    let posOneTop = $(mixList[1]).position().top;
+                    let posOneLeft = $(mixList[1]).position().left;
+                    let posTwoTop = $(mixList[2]).position().top;
+                    let posTwoLeft = $(mixList[2]).position().left;
+                    $(mixList[1]).css("top", posTwoTop);
+                    $(mixList[1]).css("left", posTwoLeft);
+                    $(mixList[2]).css("top", posOneTop);
+                    $(mixList[2]).css("left", posOneLeft);
+                    console.log(" Pos 1 top: " + posOneTop + " Pos 1 left: " + posOneLeft + " Pos 2 top: " + posTwoTop + " Pos 2 left: " + posTwoLeft);
+                }
+            }
             game = true;
+            console.log("Game: " + game);
             if (pause == false) {
                 $("#time").text(hours + ":" + minutes + ":" + seconds);
                 clearInterval(onGoing);       
@@ -309,46 +327,69 @@
             } else if (pause == true) {
                 clearInterval(onGoing);
                 pause = false;
+                game = true;
                 console.log("Pause");
+                console.log("Game: " + game);
             }
         })
 
         $("#restart").click(function () {
-            console.log("Restart");
-            game = true;
-            clearInterval(onGoing);
-            hours = "00";
-            minutes = "00";
-            seconds = "00";
-            $("#time").text(hours + ":" + minutes + ":" + seconds);
-            count = 0;
-            $("#counter").text("Coups: " + count);
-
-            onGoing = setInterval(function () {
-
+            if (game == true) {
+                console.log("Restart");
+                game = true;
+                pause = true;
+                console.log("Game: " + game);
+                clearInterval(onGoing);
+                hours = "00";
+                minutes = "00";
+                seconds = "00";
                 $("#time").text(hours + ":" + minutes + ":" + seconds);
-                cent++;
-                if (cent == 100) {
-                    cent = 0;
-                    seconds++;
-                }
-                if (seconds == 60) {
-                    seconds = "00";
-                    minutes++;
-                }
-                if (minutes == 60) {
-                    minutes = "00";
-                    hours++;
+                count = 0;
+                $("#counter").text("Coups: " + count);
+
+                let i = 0;
+                while (i < 100) {
+                    i++;
+                    fisherYates(mixList);
+                    console.log(mixList);
+                    let posOneTop = $(mixList[1]).position().top;
+                    let posOneLeft = $(mixList[1]).position().left;
+                    let posTwoTop = $(mixList[2]).position().top;
+                    let posTwoLeft = $(mixList[2]).position().left;
+                    $(mixList[1]).css("top", posTwoTop);
+                    $(mixList[1]).css("left", posTwoLeft);
+                    $(mixList[2]).css("top", posOneTop);
+                    $(mixList[2]).css("left", posOneLeft);
+                    console.log(" Pos 1 top: " + posOneTop + " Pos 1 left: " + posOneLeft + " Pos 2 top: " + posTwoTop + " Pos 2 left: " + posTwoLeft);
                 }
 
-            }, 9);
+                onGoing = setInterval(function () {
+
+                    $("#time").text(hours + ":" + minutes + ":" + seconds);
+                    cent++;
+                    if (cent == 100) {
+                        cent = 0;
+                        seconds++;
+                    }
+                    if (seconds == 60) {
+                        seconds = "00";
+                        minutes++;
+                    }
+                    if (minutes == 60) {
+                        minutes = "00";
+                        hours++;
+                    }
+
+                }, 9);
+            }
         })
 
         $("#stop").click(function () {
             console.log("Stop");
+            clearInterval(onGoing);
             pause = false;     
             game = false;
-            clearInterval(onGoing);
+            console.log("Game: " + game);
             hours = "00";
             minutes = "00";
             seconds = "00";
@@ -372,6 +413,13 @@
             $("#sq15").css({"top": "300px", "left": "200px"});
             $("#empty").css({"top": "300px", "left": "300px"});
         })
+
+    function fisherYates(array){
+    for(var i =array.length-1 ; i>0 ;i--){
+        var j = Math.floor( Math.random() * (i + 1) ); //random index
+        [array[i],array[j]]=[array[j],array[i]]; // swap
+    }
+}
 
 
         // $(".square").click(function () {
