@@ -12,7 +12,22 @@
         }
 
         body {
+            /* background-image: url(persosmm.png);
+            background-size: cover; */
+        }
+
+        .mainbg {
             background-image: url(persosmm.png);
+            background-size: cover;
+        }
+
+        .pausebg {
+            background-image: url(pausebg.png);
+            background-size: cover;
+        }
+
+        .cheatbg {
+            background-image: url(cheat.png);
             background-size: cover;
         }
 
@@ -81,7 +96,7 @@
 
         #pausePanel {
             position: fixed;
-            z-index: 500;
+            /* z-index: 500; */
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
@@ -94,6 +109,17 @@
         #imgPause {
             position: absolute;
             z-index: 1000;
+        }
+
+        #victoryPanel {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 80px;
+            border: 5px solid #857f7f;
+            border-radius: 5px;
+            text-align: center;
         }
 
         .pause {
@@ -321,6 +347,9 @@
         <h2 class="hide" id="show">"PAUSE"</h2>
     </div>
 
+    <div id="victoryPanel" class="hide">
+        <h2 class="hide" id="vicShow"></h2>
+    </div>
 
     <div id="triforcePanel" class="hide">
         <h2 id="triShow" class="hide">"Triforce Mode"</h2>
@@ -333,7 +362,7 @@
     
     
     <div class="container">
-        <div class="taquin">
+        <div class="taquin" id="taquin">
             <div id="imgPause" class="hide">
                 <img id="imgMajora" class="hide" src="pause.png" alt="">
             </div>
@@ -359,6 +388,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        $("body").addClass("mainbg");
         var onGoing;
         var count = 0;
         var hours = "00";
@@ -423,9 +453,20 @@
                 console.log(list);
                 checkVictory();
                 if (victory == true && triche == false) {
+                    clearInterval(onGoing);
                     console.log("You Win");
+                    $("#vicShow").text("Bravo !");
+                    $("#victoryPanel").removeClass("hide");
+                    $("#vicShow").removeClass("hide");
                 } else if (victory == true && triche == true) {
+                    clearInterval(onGoing);
                     console.log("You Win Cheater");
+                    $("body").removeClass("mainbg");
+                    $("body").addClass("cheatbg");
+                    $("#taquin").addClass()
+                    $("#vicShow").text('Bravo "Voyou"');
+                    $("#victoryPanel").removeClass("hide");
+                    $("#vicShow").removeClass("hide");
                 }
                 
             }
@@ -458,6 +499,9 @@
                 $("#show").addClass("hide");
                 $("#imgPause").addClass("hide");
                 $("#imgMajora").addClass("hide");
+                $("body").removeClass("pausebg");
+                $("body").removeClass("cheatbg");
+                $("body").addClass("mainbg");
                 pause = true;
                 console.log("Play");
                 onGoing = setInterval(function () {
@@ -488,6 +532,8 @@
                 $("#imgMajora").removeClass("hide");
                 $("#show").addClass("pause");
                 $("#show").text('"PAUSE"');
+                $("body").removeClass("mainbg");
+                $("body").addClass("pausebg");
                 pause = false;
                 game = true;
                 console.log("Pause");
@@ -502,8 +548,11 @@
                 pause = true;
                 triforce = false;
                 triche = false;
+                victory = false;
                 console.log("Game: " + game);
                 clearInterval(onGoing);
+                $("body").removeClass("cheatbg");
+                $("body").addClass("mainbg");
                 $("#imgPause").addClass("hide");
                 $("#show").addClass("hide");
                 $("#pausePanel").addClass("hide");
@@ -512,6 +561,8 @@
                 $("#triforcePanel").addClass("hide");
                 $("#triShow").addClass("hide");
                 $("#triImg").addClass("hide");
+                $("#victoryPanel").addClass("hide");
+                $("#vicShow").addClass("hide");
                 hours = "00";
                 minutes = "00";
                 seconds = "00";
@@ -559,6 +610,8 @@
         $("#stop").click(function () {
             console.log("Stop");
             clearInterval(onGoing);
+            $("body").removeClass("cheatbg");
+            $("body").addClass("mainbg");
             $("#pausePanel").addClass("hide");
             $("#imgPause").addClass("hide");
             $("#imgMajora").addClass("hide");
@@ -567,11 +620,14 @@
             $("#triforcePanel").addClass("hide");
             $("#triShow").addClass("hide");
             $("#triImg").addClass("hide");
+            $("#victoryPanel").addClass("hide");
+            $("#vicShow").addClass("hide");
             pause = false;     
             game = false;
             help = false;
             triforce = false;
             triche = false;
+            victory = false;
             console.log("Game: " + game);
             hours = "00";
             minutes = "00";
