@@ -17,9 +17,9 @@
         }
 
         .container {    
-            display: flex;
+            /* display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center;  */
             width: 1200px;
             height: 100vh;
             margin: auto;
@@ -71,21 +71,29 @@
             color: #f9f8ff;
             padding: 3px;
             cursor: pointer;
-        }
-
-        #displayPanel {
-            position: fixed;
-            z-index: 500;
-            top: 45px;
-            left: 540px;
-            font-size: 130px;
-            /* color: rgb(82, 43, 43); */
-            text-align: center;
-        }
+        }        
 
         .hide {
             display: none;
             z-index: -5;
+        }
+
+
+        #pausePanel {
+            position: fixed;
+            z-index: 500;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 130px;
+            border: 5px solid #857f7f;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        #imgPause {
+            position: absolute;
+            z-index: 1000;
         }
 
         .pause {
@@ -137,18 +145,17 @@
         }
 
         #triforcePanel {
+            position: fixed;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;    
-            background-color: none;
-            position: fixed;
-            bottom: 20px;
+            align-items: center;   
+            bottom: 20px; 
             left: 20px;
             border: 5px solid #ecb712;
             border-radius: 5px;
-            color: #ecb712;
             font-size: 50px;
+            color: #ecb712;            
         }
         
         #triImg {
@@ -158,6 +165,9 @@
 
         .taquin {
             position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
             height: 400px;
             width: 400px;
             border: 5px solid #f9f8ff;
@@ -307,10 +317,10 @@
     </div>
 
     
-    <div id="displayPanel" class="">
+    <div id="pausePanel" class="hide">
         <h2 class="hide" id="show">"PAUSE"</h2>
-        <img class="hide" id="imgPause" src="pause.png" alt="Masque de Majora">
     </div>
+
 
     <div id="triforcePanel" class="hide">
         <h2 id="triShow" class="hide">"Triforce Mode"</h2>
@@ -324,6 +334,9 @@
     
     <div class="container">
         <div class="taquin">
+            <div id="imgPause" class="hide">
+                <img id="imgMajora" class="hide" src="pause.png" alt="">
+            </div>
             <div class="square mix" id="sq1"></div>
             <div class="square mix" id="sq2"></div>
             <div class="square mix" id="sq3"></div>
@@ -377,6 +390,7 @@
         var list = $(".mix");
         var mixList = list;
         var curList;
+        
         // console.log("list: " + list);
 
         $("#counter").text("Coups: " + count);
@@ -443,6 +457,7 @@
                 clearInterval(onGoing);
                 $("#show").addClass("hide");
                 $("#imgPause").addClass("hide");
+                $("#imgMajora").addClass("hide");
                 pause = true;
                 console.log("Play");
                 onGoing = setInterval(function () {
@@ -468,6 +483,9 @@
                 clearInterval(onGoing);
                 $("#imgPause").removeClass("hide");
                 $("#show").removeClass("hide");
+                $("#pausePanel").removeClass("hide");
+                $("#imgPause").removeClass("hide");
+                $("#imgMajora").removeClass("hide");
                 $("#show").addClass("pause");
                 $("#show").text('"PAUSE"');
                 pause = false;
@@ -488,6 +506,9 @@
                 clearInterval(onGoing);
                 $("#imgPause").addClass("hide");
                 $("#show").addClass("hide");
+                $("#pausePanel").addClass("hide");
+                $("#imgPause").addClass("hide");
+                $("#imgMajora").addClass("hide");
                 $("#triforcePanel").addClass("hide");
                 $("#triShow").addClass("hide");
                 $("#triImg").addClass("hide");
@@ -538,7 +559,9 @@
         $("#stop").click(function () {
             console.log("Stop");
             clearInterval(onGoing);
+            $("#pausePanel").addClass("hide");
             $("#imgPause").addClass("hide");
+            $("#imgMajora").addClass("hide");
             $("#show").addClass("hide");
             $("#helpPanel").addClass("hide");
             $("#triforcePanel").addClass("hide");
