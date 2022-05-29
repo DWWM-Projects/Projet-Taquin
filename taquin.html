@@ -31,7 +31,7 @@
             left: 20px;
             display: flex;
             flex-direction: column;
-            border: 5px solid #ffffff;
+            border: 5px solid #f9f8ff;
             border-radius: 15px;
             padding: 10px;
             height: 140px;
@@ -47,12 +47,12 @@
 
         #counter {          
             font-size: 50px;
-            color: #ffffff;
+            color: #f9f8ff;
         }
 
         #time {
             font-size: 50px;
-            color: #ffffff;
+            color: #f9f8ff;
         }
 
         #buttons{
@@ -65,15 +65,15 @@
 
         button {
             background-color: transparent;
-            border: 2px solid #ffffff;
+            border: 2px solid #f9f8ff;
             border-radius: 10px;
             font-size: 30px;
-            color: #ffffff;
+            color: #f9f8ff;
             padding: 3px;
             cursor: pointer;
         }
 
-        #displayPause {
+        #displayPanel {
             position: fixed;
             z-index: 500;
             top: 45px;
@@ -88,12 +88,81 @@
             z-index: -5;
         }
 
+        .pause {
+            color: #857f7f;
+        }
+
+        .victory {
+            color: blue;
+        }
+
+        #buttonPanel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            text-align: center;
+        }
+
+        #help {
+            height: 30px;
+            width: 60px;
+            padding: 2px;
+            border: 3px solid blue;
+            color: blue;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #triforceMode {
+            height: 30px;
+            width: 150px;
+            margin-top: 5px;
+            padding: 2px;
+            border: 3px solid yellow;
+            color: yellow;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #triforcePanel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;    
+            background-color: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            border: 5px solid yellow;
+            border-radius: 5px;
+            color: yellow;
+            font-size: 50px;
+        }
+        
+        #triImg {
+            height: 250px;
+            width: 550px;
+        }
+
+        #helpPanel{
+            position: fixed;
+            top: 265px;
+            right: 200px;
+            border: 5px solid blue;
+            border-radius: 5px;
+        }
+
         .taquin {
             position: relative;
             height: 400px;
             width: 400px;
-            box-sizing: border-box;
-            border: 1px solid black;
+            /* box-sizing: border-box; */
+            border: 5px solid #f9f8ff;
+            border-radius: 5px;
         }
 
         .square {
@@ -233,10 +302,24 @@
         </div>
     </div>
 
+    <div id="buttonPanel">
+        <button id="help">Help</button>
+        <button id="triforceMode">Triforce Mode</button>
+    </div>
+
     
-    <div id="displayPause" class="hide">
-        <h2>"PAUSE"</h2>
-        <img src="pause.png" alt="Masque de Majora">
+    <div id="displayPanel" class="">
+        <h2 class="hide" id="show">"PAUSE"</h2>
+        <img class="hide" id="imgPause" src="pause.png" alt="Masque de Majora">
+    </div>
+
+    <div id="triforcePanel" class="hide">
+        <h2 id="triShow" class="hide">"Triforce Mode"</h2>
+        <img id="triImg" class="hide" src="triforce.png">
+    </div>
+
+    <div id="helpPanel" class="hide">
+        <img src="link.jpg">
     </div>
     
     
@@ -272,6 +355,8 @@
         var cent = 0;
         var pause = false;
         var game = false;
+        var triforce = false;
+        var help = false;
         var list = $(".mix");
         var mixList = list;
         var curList;
@@ -289,7 +374,7 @@
                 var diffTop = Math.abs(fullTop - empTop);
                 var diffLeft = Math.abs(fullLeft - empLeft);
                 console.log("bloc top: " + fullTop + "bloc left: " + fullLeft + "vide top: " + empTop + "vide left: " + empLeft);
-                if (diffTop > 100 || diffLeft > 100 || diffTop >= 100 && diffLeft >= 100) {
+                if ((diffTop > 100 || diffLeft > 100 || diffTop >= 100 && diffLeft >= 100) && triforce == false) {
                     return;
                 }
                 $(this).css("top", empTop);
@@ -335,7 +420,8 @@
             if (pause == false) {
                 $("#time").text(hours + ":" + minutes + ":" + seconds);
                 clearInterval(onGoing);
-                $("#displayPause").addClass("hide");   
+                $("#show").addClass("hide");
+                $("#imgPause").addClass("hide");
                 pause = true;
                 console.log("Play");
                 onGoing = setInterval(function () {
@@ -359,7 +445,10 @@
 
             } else if (pause == true) {
                 clearInterval(onGoing);
-                $("#displayPause").removeClass("hide");
+                $("#imgPause").removeClass("hide");
+                $("#show").removeClass("hide");
+                $("#show").addClass("pause");
+                $("#show").text('"PAUSE"');
                 pause = false;
                 game = true;
                 console.log("Pause");
@@ -372,9 +461,11 @@
                 console.log("Restart");
                 game = true;
                 pause = true;
+                triforceMode = false;
                 console.log("Game: " + game);
                 clearInterval(onGoing);
-                $("#displayPause").addClass("hide"); 
+                $("#imgPause").addClass("hide");
+                $("#show").addClass("hide");
                 hours = "00";
                 minutes = "00";
                 seconds = "00";
@@ -422,8 +513,16 @@
         $("#stop").click(function () {
             console.log("Stop");
             clearInterval(onGoing);
+            $("#imgPause").addClass("hide");
+            $("#show").addClass("hide");
+            $("#helpPanel").addClass("hide");
+            $("#triforcePanel").addClass("hide");
+                $("#triShow").addClass("hide");
+                $("#triImg").addClass("hide");
             pause = false;     
             game = false;
+            help = false;
+            triforce = false;
             console.log("Game: " + game);
             hours = "00";
             minutes = "00";
@@ -449,12 +548,35 @@
             $("#empty").css({"top": "300px", "left": "300px"});
         })
 
-    function fisherYates(array){
-    for(var i =array.length-1 ; i>0 ;i--){
-        var j = Math.floor( Math.random() * (i + 1) ); //random index
-        [array[i],array[j]]=[array[j],array[i]]; // swap
-    }
-}
+        $("#help").click(function () {
+            help = !help;
+            if (help == true) {
+                $("#helpPanel").removeClass("hide");
+            } else if (help == false) {
+                $("#helpPanel").addClass("hide");
+            }
+            
+        })
+
+        $("#triforceMode").click(function () {
+            triforce = !triforce;
+            if (triforce == true && game == true) {
+                $("#triforcePanel").removeClass("hide");
+                $("#triShow").removeClass("hide");
+                $("#triImg").removeClass("hide");
+            } else if (triforce == false) {
+                $("#triforcePanel").addClass("hide");
+                $("#triShow").addClass("hide");
+                $("#triImg").addClass("hide");
+            }            
+        })
+
+        function fisherYates(array){
+            for(var i =array.length-1 ; i>0 ;i--){
+                var j = Math.floor( Math.random() * (i + 1) ); //random index
+                [array[i],array[j]]=[array[j],array[i]]; // swap
+            }
+        }
 
 
         // $(".square").click(function () {
