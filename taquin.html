@@ -117,7 +117,7 @@
             cursor: pointer;
         }
 
-        #helpPanel{
+        #helpPanel {
             position: fixed;
             top: 265px;
             right: 200px;
@@ -357,10 +357,27 @@
         var triforce = false;
         var triche = false;
         var help = false;
+        var victory = false;
+        var sq1 = false;
+        var sq2 = false;
+        var sq3 = false;
+        var sq4 = false;
+        var sq5 = false;
+        var sq6 = false;
+        var sq7 = false;
+        var sq8 = false;
+        var sq9 = false;
+        var sq10 = false;
+        var sq11 = false;
+        var sq12 = false;
+        var sq13 = false;
+        var sq14 = false;
+        var sq15 = false;
+        var empty = false;
         var list = $(".mix");
         var mixList = list;
         var curList;
-        console.log("list: " + list);
+        // console.log("list: " + list);
 
         $("#counter").text("Coups: " + count);
         $("#time").text(hours + ":" + minutes + ":" + seconds); 
@@ -387,12 +404,16 @@
 
 
                 curList = $(".mix");
-                if (curList == list) {
-                    console.log("win");
-                }
+                
                 console.log(curList);
                 console.log(list);
-
+                checkVictory();
+                if (victory == true && triche == false) {
+                    console.log("You Win");
+                } else if (victory == true && triche == true) {
+                    console.log("You Win Cheater");
+                }
+                
             }
 
         })
@@ -461,11 +482,15 @@
                 console.log("Restart");
                 game = true;
                 pause = true;
-                triforceMode = false;
+                triforce = false;
+                triche = false;
                 console.log("Game: " + game);
                 clearInterval(onGoing);
                 $("#imgPause").addClass("hide");
                 $("#show").addClass("hide");
+                $("#triforcePanel").addClass("hide");
+                $("#triShow").addClass("hide");
+                $("#triImg").addClass("hide");
                 hours = "00";
                 minutes = "00";
                 seconds = "00";
@@ -577,6 +602,92 @@
             for(var i =array.length-1 ; i>0 ;i--){
                 var j = Math.floor( Math.random() * (i + 1) ); //random index
                 [array[i],array[j]]=[array[j],array[i]]; // swap
+            }
+        }
+
+        function checkVictory() {
+            if (($("#sq1").position().top) == 0 && ($("#sq1").position().left) == 0) {
+                sq1 = true;
+            } else {
+                sq1 = false;
+            }
+            if (($("#sq2").position().top) == 0 && ($("#sq2").position().left) == 100) {
+                sq2 = true;
+            } else {
+                sq2 = false;
+            }
+            if (($("#sq3").position().top) == 0 && ($("#sq3").position().left) == 200) {
+                sq3 = true;
+            } else {
+                sq3 = false;
+            }
+            if (($("#sq4").position().top) == 0 && ($("#sq4").position().left) == 300) {
+                sq4 = true;
+            } else {
+                sq4 = false;
+            }
+            if (($("#sq5").position().top) == 100 && ($("#sq5").position().left) == 0) {
+                sq5 = true;
+            } else {
+                sq5 = false;
+            }
+            if (($("#sq6").position().top) == 100 && ($("#sq6").position().left) == 100) {
+                sq6 = true;
+            } else {
+                sq6 = false;
+            }
+            if (($("#sq7").position().top) == 100 && ($("#sq7").position().left) == 200) {
+                sq7 = true;
+            } else {
+                sq7 = false;
+            }
+            if (($("#sq8").position().top) == 100 && ($("#sq8").position().left) == 300) {
+                sq8 = true;
+            } else {
+                sq8 = false;
+            }
+            if (($("#sq9").position().top) == 200 && ($("#sq9").position().left) == 0) {
+                sq9 = true;
+            } else {
+                sq9 = false;
+            }
+            if (($("#sq10").position().top) == 200 && ($("#sq10").position().left) == 100) {
+                sq10 = true;
+            } else {
+                sq10 = false;
+            }
+            if (($("#sq11").position().top) == 200 && ($("#sq11").position().left) == 200) {
+                sq11 = true;
+            } else {
+                sq12 = false;
+            }
+            if (($("#sq12").position().top) == 200 && ($("#sq12").position().left) == 300) {
+                sq12 = true;
+            } else {
+                sq12 = false;
+            }
+            if (($("#sq13").position().top) == 300 && ($("#sq13").position().left) == 0) {
+                sq13 = true;
+            } else {
+                sq13 = false;
+            }
+            if (($("#sq14").position().top) == 300 && ($("#sq14").position().left) == 100) {
+                sq14 = true;
+            } else {
+                sq14 = false;
+            }
+            if (($("#sq15").position().top) == 300 && ($("#sq15").position().left) == 200) {
+                sq15 = true;
+            } else {
+                sq15 = false;
+            }
+            if (($("#empty").position().top) == 300 && ($("#empty").position().left) == 300) {
+                empty = true;
+            } else {
+                empty = false;
+            }
+            if (sq1 && sq2 && sq3 && sq4 && sq5 && sq6 && sq7 && sq8 && sq9 && sq11 && sq12 && sq13 && sq14 && sq15 && empty) {
+                victory = true;
             }
         }
 
