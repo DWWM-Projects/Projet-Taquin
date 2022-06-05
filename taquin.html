@@ -412,8 +412,8 @@
         var triforce = false;
         var triche = false;
         var help = false;
-        var victory = false;
-        var endGame = false;
+        var victory = true;
+        var endGame = false;        
         var sq1 = false;
         var sq2 = false;
         var sq3 = false;
@@ -433,6 +433,21 @@
         var list = $(".mix");
         var mixList = list;
         var curList;
+
+        var skullkid = new Audio("rire-skullkid.wav");
+        var marchand = new Audio("rire-marchand.wav");
+        var coffre = new Audio("coffre.mp3");
+        var scream = new Audio("scream.wav");
+        var rubis = new Audio("rubis.wav");
+        var wrong = new Audio("wrong.wav");
+        var listen = new Audio("listen.wav");
+        var tael = new Audio("tael.wav");
+        var taelPause = new Audio("pause.wav");
+        var tingle = new Audio("tingle.wav");
+        var tingleOff = new Audio("tingleOff.wav");
+
+
+
         
         // console.log("list: " + list);
 
@@ -449,6 +464,9 @@
                 var diffLeft = Math.abs(fullLeft - empLeft);
                 console.log("bloc top: " + fullTop + "bloc left: " + fullLeft + "vide top: " + empTop + "vide left: " + empLeft);
                 if ((diffTop > 100 || diffLeft > 100 || diffTop >= 100 && diffLeft >= 100) && triforce == false) {
+                    rubis.pause();
+                    wrong.currentTime = 0;
+                    wrong.play();
                     return;
                 }
                 $(this).css("top", empTop);
@@ -478,6 +496,9 @@
                     $("#victoryPanel").addClass("regular");
                     $("#victoryPanel").removeClass("hide");
                     $("#vicShow").removeClass("hide");
+                    rubis.pause();
+                    coffre.currentTime = 0;
+                    coffre.play();
                 } else if (victory == true && triche == true) {
                     clearInterval(onGoing);
                     console.log("You Won Cheater !!!");
@@ -492,8 +513,13 @@
                     $("#victoryPanel").addClass("cheated");
                     $("#victoryPanel").removeClass("hide");
                     $("#vicShow").removeClass("hide");
+                    rubis.pause();
+                    scream.currentTime = 0;
+                    scream.play();
                 }
-                
+                wrong.pause();
+                rubis.currentTime = 0;
+                rubis.play();
             }
 
         })
@@ -528,7 +554,10 @@
                 $("body").removeClass("cheatbg");
                 $("body").removeClass("regularbg");
                 $("#taquin").removeClass("hide");
-                $("body").addClass("mainbg");          
+                $("body").addClass("mainbg");
+                taelPause.pause();
+                skullkid.currentTime = 0;
+                skullkid.play();        
                 pause = true;
                 console.log("Play");
                 onGoing = setInterval(function () {
@@ -565,6 +594,9 @@
                 game = true;
                 console.log("Pause");
                 // console.log("Game: " + game);
+                skullkid.pause();
+                taelPause.currentTime = 0;
+                taelPause.play();
             }
         })
 
@@ -601,6 +633,15 @@
                 $("#time").text(hours + ":" + minutes + ":" + seconds);
                 count = 0;
                 $("#counter").text("Coups: " + count);
+                // scream.currentTime = 0;
+                // coffre.currentTime = 0;
+                // taelPause.currentTime = 0;
+                // skullkid.currentTime = 0;
+                scream.pause();
+                coffre.pause();
+                skullkid.pause();
+                skullkid.currentTime = 0;
+                skullkid.play();
 
                 let i = 0;
                 while (i < 100) {
@@ -688,14 +729,24 @@
             $("#sq14").css({"top": "300px", "left": "100px"});
             $("#sq15").css({"top": "300px", "left": "200px"});
             $("#empty").css({"top": "300px", "left": "300px"});
+            scream.pause();
+            coffre.pause();
+            marchand.currentTime = 0;
+            marchand.play();
         })
 
         $("#help").click(function () {
             help = !help;
-            if (help == true && endGame == false) {
+            if (help == true && game == true && endGame == false && pause == true) {
                 $("#helpPanel").removeClass("hide");
-            } else if (help == false && endGame == false) {
+                tael.pause();
+                listen.currentTime = 0;
+                listen.play();
+            } else if (help == false && game == true && endGame == false && pause == true) {
                 $("#helpPanel").addClass("hide");
+                listen.pause();
+                tael.currentTime = 0;
+                tael.play();
             }
             
         })
@@ -704,14 +755,20 @@
             triforce = !triforce;
             triche = true;
             console.log("Triche: " + triche);
-            if (triforce == true && game == true && endGame == false) {
+            if (triforce == true && game == true && endGame == false && pause == true) {
                 $("#triforcePanel").removeClass("hide");
                 $("#triShow").removeClass("hide");
                 $("#triImg").removeClass("hide");
-            } else if (triforce == false && endGame == false) {
+                tingleOff.pause();
+                tingle.currentTime = 0;
+                tingle.play();
+            } else if (triforce == false && game == true && endGame == false && pause == true) {
                 $("#triforcePanel").addClass("hide");
                 $("#triShow").addClass("hide");
                 $("#triImg").addClass("hide");
+                tingle.pause();
+                tingleOff.currentTime = 0;
+                tingleOff.play();
             }            
         })
 
