@@ -21,6 +21,11 @@
             background-size: cover;
         }
 
+        .regularbg {
+            background-image: url(heroic.png);
+            background-size: cover;
+        }
+
         .cheatbg {
             background-image: url(cheat.png);
             background-size: cover;
@@ -122,20 +127,20 @@
         }
 
         .regular {
-            border: 5px solid #0e0f14;
+            border: 5px solid #a2e2eb;
             border-radius: 5px;
             padding: 5px;
             font-size: 85px;
-            color: #0e0f14;
+            color: #a2e2eb;
         }
 
         .pause {
             color: #857f7f;
         }
 
-        .victory {
+        /* .victory {
             color: blue;
-        }
+        } */
 
         #buttonPanel {
             display: flex;
@@ -408,6 +413,7 @@
         var triche = false;
         var help = false;
         var victory = false;
+        var endGame = false;
         var sq1 = false;
         var sq2 = false;
         var sq3 = false;
@@ -461,8 +467,11 @@
                 checkVictory();
                 if (victory == true && triche == false) {
                     clearInterval(onGoing);
-                    game = false;
                     console.log("You Won");
+                    endGame = true;
+                    $("body").removeClass("mainbg");
+                    $("body").addClass("regularbg")
+                    $("#taquin").addClass("hide");
                     $("#vicShow").text("Bravo !");
                     $("#helpPanel").addClass("hide");
                     $("#victoryPanel").removeClass("cheated");
@@ -471,10 +480,11 @@
                     $("#vicShow").removeClass("hide");
                 } else if (victory == true && triche == true) {
                     clearInterval(onGoing);
-                    game = false;
                     console.log("You Won Cheater !!!");
+                    endGame = true;
                     $("body").removeClass("mainbg");
                     $("body").addClass("cheatbg");
+                    $("#taquin").addClass("hide");
                     $("#taquin").addClass()
                     $("#vicShow").text('Bravo "Voyou"');
                     $("#helpPanel").addClass("hide");
@@ -508,7 +518,7 @@
             }
             game = true;
             // console.log("Game: " + game);
-            if (pause == false) {
+            if (pause == false && endGame == false) {
                 $("#time").text(hours + ":" + minutes + ":" + seconds);
                 clearInterval(onGoing);
                 $("#show").addClass("hide");
@@ -516,7 +526,9 @@
                 $("#imgMajora").addClass("hide");
                 $("body").removeClass("pausebg");
                 $("body").removeClass("cheatbg");
-                $("body").addClass("mainbg");
+                $("body").removeClass("regularbg");
+                $("#taquin").removeClass("hide");
+                $("body").addClass("mainbg");          
                 pause = true;
                 console.log("Play");
                 onGoing = setInterval(function () {
@@ -538,7 +550,7 @@
 
                 }, 9);
 
-            } else if (pause == true) {
+            } else if (pause == true && endGame == false) {
                 clearInterval(onGoing);
                 $("#imgPause").removeClass("hide");
                 $("#show").removeClass("hide");
@@ -564,12 +576,15 @@
                 triforce = false;
                 triche = false;
                 victory = false;
+                endGame = false;    
                 console.log("Game: " + game);
                 console.log("Triche: " + triche);
                 clearInterval(onGoing);
                 $("body").removeClass("pausebg");
                 $("body").removeClass("cheatbg");
+                $("body").removeClass("regularbg");
                 $("body").addClass("mainbg");
+                $("#taquin").removeClass("hide");
                 $("#imgPause").addClass("hide");
                 $("#show").addClass("hide");
                 $("#pausePanel").addClass("hide");
@@ -629,7 +644,9 @@
             clearInterval(onGoing);
             $("body").removeClass("pausebg");
             $("body").removeClass("cheatbg");
+            $("body").removeClass("regularbg");
             $("body").addClass("mainbg");
+            $("#taquin").removeClass("hide");
             $("#pausePanel").addClass("hide");
             $("#imgPause").addClass("hide");
             $("#imgMajora").addClass("hide");
@@ -646,6 +663,7 @@
             triforce = false;
             triche = false;
             victory = false;
+            endGame = false;    
             console.log("Game: " + game);
             console.log("Triche: " + triche);
             hours = "00";
@@ -674,9 +692,9 @@
 
         $("#help").click(function () {
             help = !help;
-            if (help == true) {
+            if (help == true && endGame == false) {
                 $("#helpPanel").removeClass("hide");
-            } else if (help == false) {
+            } else if (help == false && endGame == false) {
                 $("#helpPanel").addClass("hide");
             }
             
@@ -686,11 +704,11 @@
             triforce = !triforce;
             triche = true;
             console.log("Triche: " + triche);
-            if (triforce == true && game == true) {
+            if (triforce == true && game == true && endGame == false) {
                 $("#triforcePanel").removeClass("hide");
                 $("#triShow").removeClass("hide");
                 $("#triImg").removeClass("hide");
-            } else if (triforce == false) {
+            } else if (triforce == false && endGame == false) {
                 $("#triforcePanel").addClass("hide");
                 $("#triShow").addClass("hide");
                 $("#triImg").addClass("hide");
