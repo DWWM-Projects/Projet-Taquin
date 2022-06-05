@@ -11,11 +11,6 @@
             padding: 0;
         }
 
-        body {
-            /* background-image: url(persosmm.png);
-            background-size: cover; */
-        }
-
         .mainbg {
             background-image: url(persosmm.png);
             background-size: cover;
@@ -101,8 +96,7 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 130px;
-            border: 5px solid #857f7f;
-            border-radius: 5px;
+
             text-align: center;
         }
 
@@ -116,10 +110,23 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 80px;
-            border: 5px solid #857f7f;
-            border-radius: 5px;
             text-align: center;
+        }
+
+        .cheated {
+            border: 5px solid #0e0f14;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 85px;
+            color: #0e0f14;
+        }
+
+        .regular {
+            border: 5px solid #0e0f14;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 85px;
+            color: #0e0f14;
         }
 
         .pause {
@@ -454,17 +461,25 @@
                 checkVictory();
                 if (victory == true && triche == false) {
                     clearInterval(onGoing);
-                    console.log("You Win");
+                    game = false;
+                    console.log("You Won");
                     $("#vicShow").text("Bravo !");
+                    $("#helpPanel").addClass("hide");
+                    $("#victoryPanel").removeClass("cheated");
+                    $("#victoryPanel").addClass("regular");
                     $("#victoryPanel").removeClass("hide");
                     $("#vicShow").removeClass("hide");
                 } else if (victory == true && triche == true) {
                     clearInterval(onGoing);
-                    console.log("You Win Cheater");
+                    game = false;
+                    console.log("You Won Cheater !!!");
                     $("body").removeClass("mainbg");
                     $("body").addClass("cheatbg");
                     $("#taquin").addClass()
                     $("#vicShow").text('Bravo "Voyou"');
+                    $("#helpPanel").addClass("hide");
+                    $("#victoryPanel").removeClass("regular");
+                    $("#victoryPanel").addClass("cheated");
                     $("#victoryPanel").removeClass("hide");
                     $("#vicShow").removeClass("hide");
                 }
@@ -519,7 +534,7 @@
                     if (minutes == 60) {
                         minutes = "00";
                         hours++;
-                    }                
+                    } 
 
                 }, 9);
 
@@ -550,7 +565,9 @@
                 triche = false;
                 victory = false;
                 console.log("Game: " + game);
+                console.log("Triche: " + triche);
                 clearInterval(onGoing);
+                $("body").removeClass("pausebg");
                 $("body").removeClass("cheatbg");
                 $("body").addClass("mainbg");
                 $("#imgPause").addClass("hide");
@@ -610,6 +627,7 @@
         $("#stop").click(function () {
             console.log("Stop");
             clearInterval(onGoing);
+            $("body").removeClass("pausebg");
             $("body").removeClass("cheatbg");
             $("body").addClass("mainbg");
             $("#pausePanel").addClass("hide");
@@ -629,6 +647,7 @@
             triche = false;
             victory = false;
             console.log("Game: " + game);
+            console.log("Triche: " + triche);
             hours = "00";
             minutes = "00";
             seconds = "00";
@@ -666,6 +685,7 @@
         $("#triforceMode").click(function () {
             triforce = !triforce;
             triche = true;
+            console.log("Triche: " + triche);
             if (triforce == true && game == true) {
                 $("#triforcePanel").removeClass("hide");
                 $("#triShow").removeClass("hide");
