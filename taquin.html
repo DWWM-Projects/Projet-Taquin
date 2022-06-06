@@ -17,7 +17,7 @@
         }
 
         .pausebg {
-            background-image: url(pausebg.png);
+            background-image: url(pause.jpg);
             background-size: cover;
         }
 
@@ -32,9 +32,6 @@
         }
 
         .container {    
-            /* display: flex;
-            justify-content: center;
-            align-items: center;  */
             width: 1200px;
             height: 100vh;
             margin: auto;
@@ -101,7 +98,6 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 130px;
-
             text-align: center;
         }
 
@@ -135,18 +131,14 @@
         }
 
         .pause {
-            color: #857f7f;
+            color: #ec4e23;
         }
-
-        /* .victory {
-            color: blue;
-        } */
 
         #buttonPanel {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: end;
+            align-items: end;
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -165,7 +157,8 @@
 
         #helpPanel {
             position: fixed;
-            top: 265px;
+            top: 50%;
+            transform: translateY(-50%);
             right: 200px;
             border: 5px solid #fdf8da;
             border-radius: 5px;
@@ -412,7 +405,7 @@
         var triforce = false;
         var triche = false;
         var help = false;
-        var victory = true;
+        var victory = false;
         var endGame = false;        
         var sq1 = false;
         var sq2 = false;
@@ -445,9 +438,6 @@
         var taelPause = new Audio("pause.wav");
         var tingle = new Audio("tingle.wav");
         var tingleOff = new Audio("tingleOff.wav");
-
-
-
         
         // console.log("list: " + list);
 
@@ -559,6 +549,7 @@
                 skullkid.currentTime = 0;
                 skullkid.play();        
                 pause = true;
+                game == true
                 console.log("Play");
                 onGoing = setInterval(function () {
 
@@ -590,6 +581,8 @@
                 $("#show").text('"PAUSE"');
                 $("body").removeClass("mainbg");
                 $("body").addClass("pausebg");
+                $("#taquin").addClass("hide");
+                $("#helpPanel").addClass("hide");
                 pause = false;
                 game = true;
                 console.log("Pause");
@@ -622,6 +615,7 @@
                 $("#pausePanel").addClass("hide");
                 $("#imgPause").addClass("hide");
                 $("#imgMajora").addClass("hide");
+                $("#helpPanel").addClass("hide");
                 $("#triforcePanel").addClass("hide");
                 $("#triShow").addClass("hide");
                 $("#triImg").addClass("hide");
@@ -633,10 +627,6 @@
                 $("#time").text(hours + ":" + minutes + ":" + seconds);
                 count = 0;
                 $("#counter").text("Coups: " + count);
-                // scream.currentTime = 0;
-                // coffre.currentTime = 0;
-                // taelPause.currentTime = 0;
-                // skullkid.currentTime = 0;
                 scream.pause();
                 coffre.pause();
                 skullkid.pause();
