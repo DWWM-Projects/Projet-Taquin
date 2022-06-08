@@ -510,6 +510,9 @@
                 wrong.pause();
                 rubis.currentTime = 0;
                 rubis.play();
+            } else {
+                wrong.currentTime = 0;
+                wrong.play();
             }
 
         })
@@ -667,6 +670,9 @@
                     }
 
                 }, 9);
+            } else {
+                wrong.currentTime = 0;
+                wrong.play();
             }
         })
 
@@ -737,15 +743,20 @@
                 listen.pause();
                 tael.currentTime = 0;
                 tael.play();
+            } else {
+                help = false;
+                wrong.currentTime = 0;
+                wrong.play();
             }
             
         })
 
         $("#triforceMode").click(function () {
-            triforce = !triforce;
-            triche = true;
-            console.log("Triche: " + triche);
+                triforce = !triforce;
+                triche = true;
+                console.log("Triche: " + triche);
             if (triforce == true && game == true && endGame == false && pause == true) {
+
                 $("#triforcePanel").removeClass("hide");
                 $("#triShow").removeClass("hide");
                 $("#triImg").removeClass("hide");
@@ -759,7 +770,11 @@
                 tingle.pause();
                 tingleOff.currentTime = 0;
                 tingleOff.play();
-            }            
+            } else {
+                triforce = false;
+                wrong.currentTime = 0;
+                wrong.play();
+            }
         })
 
         function fisherYates(array){
